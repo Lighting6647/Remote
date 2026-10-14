@@ -11,8 +11,9 @@ const elements = {
   showDesktop: document.querySelector("#showDesktop"), turnServer: document.querySelector("#turnServer"),
   turnUsername: document.querySelector("#turnUsername"), turnPassword: document.querySelector("#turnPassword"),
   forceRelay: document.querySelector("#forceRelay"), deviceName: document.querySelector("#deviceName"),
-  saveDevice: document.querySelector("#saveDevice"), savedDevices: document.querySelector("#savedDevices"),
-  autoReconnect: document.querySelector("#autoReconnect")
+  saveDevice: document.querySelector("#saveDevice"), deleteDevice: document.querySelector("#deleteDevice"),
+  savedDevices: document.querySelector("#savedDevices"), autoReconnect: document.querySelector("#autoReconnect"),
+  clearLog: document.querySelector("#clearLog")
 };
 
 let socket;
@@ -52,6 +53,15 @@ function saveCurrentDevice() {
   if (!/^\d{9}$/.test(id) || !name) { log("กรอกรหัสเครื่อง 9 หลักและชื่อเครื่องก่อนบันทึก"); return; }
   const devices = JSON.parse(localStorage.getItem("remote-address-book") || "[]").filter((device) => device.id !== id);
   devices.unshift({ id, name }); localStorage.setItem("remote-address-book", JSON.stringify(devices.slice(0, 50))); loadAddressBook(); log(`บันทึก ${name} แล้ว`);
+}
+
+function deleteCurrentDevice() {
+  const selectedId = elements.savedDevices.value;
+  if (!selectedId) { log("กรุณาเลือกเครื่องที่ต้องการลบจากรายการ"); return; }
+  const devices = JSON.parse(localStorage.getItem("remote-address-book") || "[]").filter((device) => device.id !== selectedId);
+  localStorage.setItem("remote-address-book", JSON.stringify(devices));
+  loadAddressBook();
+  log(`ลบเครื่องรหัส ${selectedId.replace(/(\d{3})(?=\d)/g, "$1 ")} ออกจากสมุดรายชื่อแล้ว`);
 }
 
 function rtcConfiguration(managedIceServers) {
@@ -359,6 +369,8 @@ function disconnect(reason = "ตัดการเชื่อมต่อแ�
 elements.connect.addEventListener("click", connect);
 elements.disconnect.addEventListener("click", () => disconnect());
 elements.saveDevice.addEventListener("click", saveCurrentDevice);
+elements.deleteDevice.addEventListener("click", deleteCurrentDevice);
+elements.clearLog.addEventListener("click", () => { elements.log.textContent = ""; });
 elements.savedDevices.addEventListener("change", () => {
   if (!elements.savedDevices.value) return;
   elements.sessionId.value = elements.savedDevices.value.replace(/(\d{3})(?=\d)/g, "$1 ");

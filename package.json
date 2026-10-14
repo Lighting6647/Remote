@@ -10,7 +10,7 @@
     "dev:server": "npm run dev -w @remote/signaling-server",
     "dev:agent": "npm run dev -w @remote/desktop-agent",
     "dev:controller": "npm run dev -w @remote/desktop-controller",
-    "test": "npm run test --workspaces --if-present"
+    "test": "npm run test --workspaces --if-present && node tests/system-e2e.test.mjs"
   },
   "engines": {
     "node": ">=22"

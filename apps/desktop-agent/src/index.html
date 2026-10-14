@@ -10,10 +10,15 @@
   <body>
     <main>
       <section class="brand">
-        <span class="logo">↔</span>
+        <span class="logo"></span>
         <h1>Remote Support</h1>
-        <p>เชื่อมต่อเจ้าหน้าที่ IT อย่างปลอดภัย<br />สำหรับ Windows และ macOS</p>
-        <div class="privacy">หน้าจอจะไม่ถูกแชร์จนกว่าคุณจะกดยินยอม</div>
+        <p class="brand-subtitle">เชื่อมต่อเจ้าหน้าที่ IT อย่างปลอดภัย<br />สำหรับ Windows และ macOS</p>
+        <div class="privacy">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: #60a5fa;">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>หน้าจอจะไม่ถูกแชร์จนกว่าคุณจะกดยินยอม</span>
+        </div>
       </section>
       <section class="panel">
         <div class="status"><span id="dot"></span><strong id="statusText">พร้อมตั้งค่า</strong></div>
@@ -22,7 +27,10 @@
         <div class="identityCard">
           <span>รหัสประจำเครื่อง</span><strong id="deviceIdText">กำลังสร้าง…</strong>
           <span>รหัสผ่านครั้งนี้</span><strong id="passwordText">------</strong>
-          <button id="regenerateCode" class="secondary" type="button">สร้างรหัสใหม่</button>
+          <div class="identityCardActions">
+            <button id="copyCode" class="secondary" type="button">คัดลอกรหัส</button>
+            <button id="regenerateCode" class="secondary" type="button">สร้างรหัสใหม่</button>
+          </div>
         </div>
         <input id="sessionId" type="hidden" />
         <input id="joinToken" type="hidden" />

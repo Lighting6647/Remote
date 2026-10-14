@@ -9,7 +9,7 @@
   </head>
   <body>
     <header>
-      <div><span class="logo">↔</span><strong>IT Support Console</strong></div>
+      <div><span class="logo"></span><strong>IT Support Console</strong></div>
       <div class="state"><span id="dot"></span><span id="status">ยังไม่เชื่อมต่อ</span></div>
     </header>
     <main>
@@ -22,7 +22,12 @@
           <input id="deviceName" placeholder="ชื่อเครื่อง เช่น Reception-01" />
           <button id="saveDevice" class="secondary" type="button">บันทึก</button>
         </div>
-        <label>รายการเครื่องที่บันทึก<select id="savedDevices"><option value="">— เลือกเครื่อง —</option></select></label>
+        <label>รายการเครื่องที่บันทึก
+          <div class="savedDevicesRow">
+            <select id="savedDevices"><option value="">— เลือกเครื่อง —</option></select>
+            <button id="deleteDevice" class="secondary" type="button" title="ลบเครื่องที่เลือกจากสมุดบันทึก">ลบ</button>
+          </div>
+        </label>
         <label class="check"><input id="autoReconnect" type="checkbox" checked /> เชื่อมต่อใหม่อัตโนมัติเมื่อสัญญาณหลุด</label>
         <details class="networkSettings">
           <summary>ตั้งค่า Internet / TURN</summary>
@@ -51,11 +56,24 @@
           <strong id="capabilities">รอ Agent แจ้งสิทธิ์</strong>
           <p>เมาส์และคีย์บอร์ดทำงานเฉพาะเมื่อ Agent อนุญาต กดภายในภาพเพื่อควบคุม</p>
         </section>
+        <div class="logHeader">
+          <span>บันทึกการทำงาน</span>
+          <button id="clearLog" type="button" title="ล้างบันทึก">ล้าง</button>
+        </div>
         <div id="log" aria-live="polite"></div>
       </aside>
       <section class="viewer">
         <div id="dropHint">วางไฟล์ที่นี่เพื่อส่งไปเครื่องปลายทาง</div>
-        <div id="placeholder"><span>▣</span><p>รอภาพจากเครื่องปลายทาง</p></div>
+        <div id="placeholder">
+          <span>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="14" x="2" y="3" rx="2"></rect>
+              <line x1="8" x2="16" y1="21" y2="21"></line>
+              <line x1="12" x2="12" y1="17" y2="21"></line>
+            </svg>
+          </span>
+          <p>รอภาพจากเครื่องปลายทาง</p>
+        </div>
         <video id="remoteScreen" autoplay playsinline></video>
         <div id="modeBadge" class="badge">VIEW ONLY</div>
       </section>

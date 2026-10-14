@@ -23,7 +23,7 @@ async function createWindow() {
     minHeight: 640,
     title: "IT Remote Support Console",
     icon: path.join(directory, "app-icon.png"),
-    backgroundColor: "#090f1d",
+    backgroundColor: "#080c14",
     webPreferences: {
       preload: path.join(directory, "preload.cjs"),
       contextIsolation: true,

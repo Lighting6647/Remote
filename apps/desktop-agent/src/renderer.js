@@ -9,7 +9,8 @@ const elements = {
   turnUsername: document.querySelector("#turnUsername"), turnPassword: document.querySelector("#turnPassword"),
   forceRelay: document.querySelector("#forceRelay"), displaySource: document.querySelector("#displaySource"),
   deviceIdText: document.querySelector("#deviceIdText"), passwordText: document.querySelector("#passwordText"),
-  regenerateCode: document.querySelector("#regenerateCode")
+  regenerateCode: document.querySelector("#regenerateCode"),
+  copyCode: document.querySelector("#copyCode")
 };
 
 let socket;
@@ -346,6 +347,7 @@ async function start() {
     stream.getVideoTracks()[0].addEventListener("ended", () => stop("หยุดแชร์หน้าจอแล้ว"));
     elements.stop.hidden = false;
     elements.regenerateCode.disabled = true;
+    elements.copyCode.disabled = true;
   } catch (error) {
     stop(error instanceof Error ? error.message : "ไม่สามารถแชร์หน้าจอได้");
   }
@@ -368,11 +370,29 @@ function stop(reason = "ตัดการเชื่อมต่อแล้�
   elements.preview.srcObject = null; elements.preview.hidden = true;
   elements.stop.hidden = true; elements.start.disabled = !elements.consent.checked;
   elements.regenerateCode.disabled = false;
+  elements.copyCode.disabled = false;
   setStatus(reason);
+}
+
+async function copyCredentials() {
+  const text = `รหัสเครื่อง: ${elements.sessionId.value} | รหัสผ่าน: ${elements.joinToken.value}`;
+  try {
+    await navigator.clipboard.writeText(text);
+    const original = elements.copyCode.textContent;
+    elements.copyCode.textContent = "คัดลอกแล้ว ✓";
+    elements.copyCode.classList.add("copied");
+    setTimeout(() => {
+      elements.copyCode.textContent = original;
+      elements.copyCode.classList.remove("copied");
+    }, 2000);
+  } catch {
+    setStatus("ไม่สามารถคัดลอกลงคลิปบอร์ดได้");
+  }
 }
 
 elements.start.addEventListener("click", start);
 elements.regenerateCode.addEventListener("click", regenerateAccessCode);
+elements.copyCode.addEventListener("click", copyCredentials);
 elements.stop.addEventListener("click", () => stop());
 window.addEventListener("keydown", (event) => {
   if (event.ctrlKey && event.altKey && event.shiftKey && event.key === "Escape") stop("หยุดฉุกเฉินโดยผู้ใช้");

@@ -6,3 +6,4 @@ dist/
 apps/*/release/
 apps/desktop-agent/service/RemoteSupportService.exe
 tools/
+.agents/
